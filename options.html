@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>options</title>
+  <style>
+    * {
+      cursor: url('./finger.png'), auto !important;
+    }
+    label {
+      display: flex;
+      align-items: center;
+    }
+    input {
+      margin-left: 14px;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+    }
+    label, #result {
+      margin-bottom: 14px;
+    }
+    #color {
+      max-height: 300px;
+      overflow: auto;
+    }
+    #color .button-span {
+      background-color: white;
+      padding: 5px 10px;
+      border-radius: 10px;
+    }
+    #search_colors {
+      margin-top: 14px;
+      margin-bottom: 14px;
+    }
+    #width {
+      margin-top: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="options">
+    <label>
+      color:
+      <input id="search_colors" type="text">
+    </label>
+
+    <!-- потом диспатчим евент "change" в коде -->
+    <div id="color" data-prop="color" data-option type="color"></div>
+
+    <label>
+      width:
+      <input id="width" type="range" data-prop="height" data-option step=1 min=1 max=10 value=5>
+    </label>
+  </div>
+  <div id="result"></div>
+
+  <div id="status"></div>
+  <!-- https://gist.github.com/troskcey/a214bb6dd96fef7303ea0a3437c7548a.js -->
+  <script src="colors.js"></script>
+  <script src="generateColors.js"></script>
+  <script src="searchColor.js"></script>
+
+  <script src="src/events.js" module></script>
+  <script src="src/OptionsElement.js" module></script>
+  <script src="src/OptionsManager.js" module></script>
+  <script src="src/ChromeStorage.js" module></script>
+  <script src="options.js"></script>
+</body>
+
+</html>

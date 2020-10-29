@@ -1,0 +1,25 @@
+{
+	"manifest_version": 2,
+	"name": "HTML Deleter",
+	"description": "Delete HTML",
+	"version": "0.0.2",
+	"permissions": ["activeTab", "storage"],
+	"content_scripts": [
+		{
+			"matches": [
+				"<all_urls>"
+			],
+			"js": ["content_scripts/index.js"]
+		}
+	],
+	"browser_action": {
+		"default_popup": "options.html",
+		"default_icon": {
+			"16": "finger.png",
+			"32": "finger.png",
+			"48": "finger.png",
+			"128": "finger.png"
+		}
+	},
+	"options_page": "options.html"
+}
