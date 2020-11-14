@@ -1,5 +1,5 @@
 const config = {
-  dev: false,
+  dev: true,
 }
 
 function devLog() {
@@ -15,20 +15,28 @@ class Listener {
   constructor() {
     devLog("constructor", this)
 
+    this.deleteTimeout = null
+
     this.clickListener = this.clickListener.bind(this)
     this.keyupListener = this.keyupListener.bind(this)
     this.keydownListener = this.keydownListener.bind(this)
     this.mouseoverListener = this.mouseoverListener.bind(this)
+    this.destroy = this.destroy.bind(this)
 
     window.addEventListener("keydown", this.keydownListener)
   }
 
   keydownListener(event) {
+    this.setDeleteTimeout()
+
     window.addEventListener("click", this.clickListener)
     window.addEventListener("keyup", this.keyupListener)
     window.addEventListener("mouseover", this.mouseoverListener)
   }
-  mouseoverListener(event) { }
+  mouseoverListener(event) {
+    this.removeDeleteTimeout()
+    this.setDeleteTimeout()
+  }
   keyupListener(event) {
     window.removeEventListener("mouseover", this.mouseoverListener)
     window.removeEventListener("keyup", this.keyupListener)
@@ -41,6 +49,13 @@ class Listener {
   destroy() {
     this.keyupListener()
     window.removeEventListener("keydown", this.keydownListener)
+  }
+  setDeleteTimeout() {
+    this.deleteTimeout = setTimeout(this.keyupListener, 5000)
+  }
+  removeDeleteTimeout() {
+    clearTimeout(this.deleteTimeout)
+    this.deleteTimeout = null
   }
 }
 
@@ -57,6 +72,9 @@ class DeleteHTML extends Listener {
     devLog("ctrl?", event.ctrlKey, event)
 
     if (!event.ctrlKey) return
+    if (event.code === "KeyF") {
+      return this.keyupListener(event)
+    }
 
     this.lastTarget = event.target
 
@@ -65,6 +83,8 @@ class DeleteHTML extends Listener {
   
   mouseoverListener(event) {
     devLog("mouseoverlistener")
+    super.mouseoverListener()
+
     const target = event.target
   
     if (!this.lastTarget) {
